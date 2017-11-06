@@ -1,6 +1,6 @@
 # Autocast: Cast-Oriented programming
 
-Autocast is an experimental python library for defining casts (transformations) between different classes.
+Autocast is an experimental python library for defining casts (transformations) between different types.
 
 A cast is a simply a function that converts between types. Autocast provides a convenient way to define casts, and to apply them in your code.
 
