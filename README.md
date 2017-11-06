@@ -24,7 +24,7 @@ Features:
 
 ## Case Study
 
-As a case study, let's use it on a JSON class:
+As a case study, let's use Autocast on a toy JSON class:
 
 ```python
 import json
@@ -41,7 +41,7 @@ class JSON:
     def to__dict(self):
         return self.json
 
-    # ... more casts, and convenience 
+    # ... more casts, and other methods
 
 ```
 
@@ -87,11 +87,13 @@ And this is how we use it:
 autocast.autocast.CastPathError: Couldn't find a cast path between <class 'list'> and <class 'str'>
 ```
 
+Pretty cool, right?
+
 ## Caveats
 
 The main caveats of this library is that:
 
-1. It's young, which means it's still lacking a lot of feature.
+1. It's young, which means it's still lacking a lot of features.
 
 2. It's experimental, which means its concepts still need some work.
 
