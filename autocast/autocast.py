@@ -9,6 +9,9 @@ class CastError(Exception):
     def __str__(self):
         return self.args[0] % self.args[1:]
 
+class CastPathError(CastError):
+    pass
+
 
 def _bfs(initial, expand):
     open_q = deque(list(initial))
@@ -52,7 +55,7 @@ def _find_cast_path(from_type, to_type):
         if x == to_type:
             break
     else:
-        raise CastError("Couldn't find a cast path between %s and %s", from_type, to_type)
+        raise CastPathError("Couldn't find a cast path between %s and %s", from_type, to_type)
 
     x = to_type
     path = []
@@ -136,15 +139,23 @@ def add_cast(from_type, to_type, f, is_lossy=False):
     assert from_type is not to_type
     return _add_cast_function(from_type, to_type, f)
 
-def cast(inst, to):
+def cast(inst, *to_list, force=False):
     "Cast an instance to the target type"
-    if isinstance(inst, to):
-        return inst
-    else:
-        new_inst = _cast(inst, to)
-        if not isinstance(new_inst, to):
-            raise CastError("Returned instance is not of type %s (it's %s)", to, type(new_inst))
-        return new_inst
+    for to in to_list:
+        if type(inst) != type(to):
+            try:
+                new_inst = _cast(inst, to)
+            except:
+                if force or not isinstance(inst, to):
+                    raise
+
+                new_inst = inst
+
+            if not isinstance(new_inst, to):
+                raise CastError("Returned instance is not of type %s (it's %s)", to, type(new_inst))
+            inst = new_inst
+
+    return inst
 
 # Basic casts
 add_cast(str, int, int)
